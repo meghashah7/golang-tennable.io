@@ -1,0 +1,44 @@
+---
+auth:
+  username: "exampleNessusUser"
+  password: "exampleNessusPassword"
+nessusLocation:
+  hostname: "localhost"
+  port: "8834"
+sqlitePath: "/Users/exampleUser/nessusControl.db"
+debug: false
+directories:
+  ingest_base_path: "/Users/exampleUser/nessusRequestedScans"
+  result_base_path: "/Users/exampleUser/nessusResults"
+transport:
+  scanners: ["scanner1"]
+  scanner1:
+    address:
+      host: 127.0.0.1
+      port: 8022
+    auth:
+      username: "scanner1User"
+      password: "scanner1Password"
+    key:
+      basepath: "/Users/exampleUser/.ssh/"
+      filename: "id_rsa"
+    withSSHAgent: false
+    removeResultFiles: true
+policyViolations:
+  - pluginID: 81817 # Elasticsearch Detection
+    externallyAccessible: true
+    port: [123, 321]
+    descriptionRegexp: ['(This|That) is a match!', '(This|That) doesnt match sadly.']
+    notDescriptionRegexp: ['If this matches\,? return false']
+    organizationID: [1, 3]
+    regionID: [1, 3]
+    ignoreViolationWithCriteriaMatch: false
+    previousViolationCheck: false
+    countIf: all
+falsePositives:
+  - pluginID: 20007 # SSL Version 2 and 3 Protocol Detection
+    port: 2738 # HP Discovery Agent
+    procotol: "tcp"
+    descriptionRegexp: []
+    checkIfIsNotDefined: false
+    sqlSolarisCheck: false
